@@ -2,9 +2,6 @@ module Seeligerite
   module Io
     class Writer < RWBase
 
-      private
-        @endianess = 0
-
       public
         def write value, length = nil
           raise "Can't operate on a closed file." if @file.nil?
@@ -154,26 +151,6 @@ module Seeligerite
 
         def to_f value
           [value].pack('f*')
-        end
-
-        def little_endian?
-          endian == LITTLE_ENDIAN_ORDER
-        end
-
-        def big_endian?
-          endian == BIG_ENDIAN_ORDER
-        end
-
-        def endian
-          if @endianess == 0 then
-            @endianess = if to_i32("\x01\x00\x00\x00") == 1 then
-              LITTLE_ENDIAN_ORDER
-            else
-              BIG_ENDIAN_ORDER
-            end
-          end
-
-          @endianess
         end
     end
   end
