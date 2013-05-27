@@ -14,6 +14,13 @@
 
 require 'simplecov'
 
+begin
+  require 'archive'
+rescue LoadError
+  puts "Gem libarchive-ruby is required to run tests, and not installed."
+  system(exit)
+end
+
 SimpleCov.start do
   add_filter "/test/"
 end
