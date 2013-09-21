@@ -59,8 +59,8 @@ module Seeligerite
         end
 
         def endian
-          if @endianess == 0 then
-            @endianess = if to_i32("\x01\x00\x00\x00") == 1 then
+          unless @endianess then
+            @endianess = if [1,0,0,0].pack('i') == "\x01\x00\x00\x00" then
               LITTLE_ENDIAN_ORDER
             else
               BIG_ENDIAN_ORDER
@@ -68,6 +68,19 @@ module Seeligerite
           end
 
           @endianess
+        end
+
+        def to_i16 value
+          [value].pack('s*')
+        end
+
+        def to_i32 value
+          puts value.inspect
+          [value].pack('l*')
+        end
+
+        def to_f value
+          [value].pack('f*')
         end
     end
   end

@@ -139,19 +139,6 @@ module Seeligerite
             ].pack('V1v2N2')
           )
         end
-
-      private
-        def to_i16 value
-          [value].pack('s*')
-        end
-
-        def to_i32 value
-          [value].pack('l*')
-        end
-
-        def to_f value
-          [value].pack('f*')
-        end
     end
   end
 end

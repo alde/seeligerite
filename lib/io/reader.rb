@@ -3,6 +3,12 @@ module Seeligerite
     class Reader < RWBase
 
       public
+
+        def initialize file
+          super file
+          @file.rewind
+        end
+
         def available?
           offset < size
         end
@@ -16,8 +22,8 @@ module Seeligerite
 
         def read len
           raise "Argument len must not be negative." if len < 0
-          return '' if len == 0
           raise "Can't operate on a closed file." if @file.nil?
+          return @file.read if len == 0
           @file.read len
         end
 
@@ -48,7 +54,7 @@ module Seeligerite
         end
 
       private
-        def from_int_16 val
+        def from_int_16 value
           value.unpack('s*').last
         end
     end
