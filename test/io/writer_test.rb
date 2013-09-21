@@ -19,6 +19,7 @@ module Seeligerite
         Dir.chdir File.dirname(__FILE__)
         archive = Archive.new zipfile
         archive.extract
+        @writer = Writer.new file
       end
 
       after do
@@ -32,37 +33,34 @@ module Seeligerite
       end
 
       it "can write to string" do
-        w = Writer.new file
-        size_before = w.size
+        size_before = @writer.size
 
-        w.write_string_8 "hojoj"
-        w.flush
-        size_after = w.size
+        @writer.write_string_8 "hojoj"
+        @writer.flush
+        size_after = @writer.size
 
-        w.close
+        @writer.close
 
         assert_that(size_before, less_than(size_after))
       end
 
       it "can truncate a string" do
-        w = Writer.new file
-        size_before = w.size
+        size_before = @writer.size
 
-        w.size = 5
-        w.flush
+        @writer.size = 5
+        @writer.flush
 
-        size_after = w.size
+        size_after = @writer.size
 
-        w.close
+        @writer.close
 
         assert_that size_before, greater_than(size_after)
       end
 
       it "can change the offset" do
-        w = Writer.new file
-        pos_before = w.offset
-        w.offset = 12
-        pos_after = w.offset
+        pos_before = @writer.offset
+        @writer.offset = 12
+        pos_after = @writer.offset
 
         assert_that pos_after, aint(pos_before)
       end
